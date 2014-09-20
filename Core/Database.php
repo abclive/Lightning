@@ -2,7 +2,7 @@
 
 class Database
 {
-	protected static 	$Name = "geekr";
+	protected static 	$Name = "dbname";
 	protected static 	$User = "root";
 	protected static	$Password = "root";
 	protected static	$Adress = "localhost";

@@ -18,7 +18,7 @@ class Configuration
 	**	@routes_params: Typical route structure
 	**	@base_dir: Site base adress
 	*/
-	public static	$base_dir = "http://localhost/FunkyPHP/";
+	public static	$base_dir = "http://localhost/Lightning";
 	public static	$routes_params = array("locale", "bundle", "action");
 	public static	$default_method_call = "index";
 	public static	$index_bundle = "Home";
