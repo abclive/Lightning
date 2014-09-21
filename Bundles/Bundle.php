@@ -12,6 +12,7 @@ class Bundle
 	public function fetch(array $query = array())
 	{
 		$request = "SELECT ";
+
 		if (isset($query['conditions']['row']))
 			$request = $request.$query['conditions']['row']." FROM ";
 		else
@@ -43,6 +44,42 @@ class Bundle
 		return ($result);
 
 	}
-}
 
-?>
+	public function save(array $data)
+	{
+		$request = "INSERT INTO ";
+
+		if (isset($data[0]))
+			$request = $request.$data[0];
+		else
+			$request = $request.strtolower(get_class($this));
+
+		if (isset($data['rows']) && is_array($data['rows']))
+		{
+			$request = $request." (";
+			foreach ($data['rows'] as $key => $value)
+			{
+				if ($key < count($data['rows']) - 1)
+					$request = $request.$value.", ";
+				else
+					$request = $request.$value.")";
+			}
+		}
+
+		if (isset($data['values']))
+		{
+			$request = $request." VALUES (";
+			foreach ($data['values'] as $key => $value)
+			{
+				if ($key < count($data['values']) - 1)
+					$request = $request."?, ";
+				else
+					$request = $request."?)";
+			}
+		}
+		else
+			throw new Exception("Bundle::save() require a valid data array", 1001);
+
+		Database::Request($request, $data['values']);
+	}
+}

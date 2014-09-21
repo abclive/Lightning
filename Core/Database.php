@@ -8,11 +8,11 @@ class Database
 	protected static	$Adress = "localhost";
 	protected static	$Port = 8889;
 
-	protected function Connect()
+	protected static function Connect()
 	{
 		try
 		{
-			$db = new PDO('mysql:host='.Database::$Adress.';port='.Database::$Port.';dbname='.Database::$Name, Database::$User, Database::$Password);
+			$db = new PDO('mysql:host='.self::$Adress.';port='.self::$Port.';dbname='.self::$Name, self::$User, self::$Password);
 			return ($db);
 		}
 		catch (PDOException $e)
@@ -24,19 +24,18 @@ class Database
 
 	public static function Query($query)
 	{
-		$db = Database::Connect();
+		$db = self::Connect();
 		$request = $db->query($query);
 		$request->execute();
 		$result = $request->fetchAll();
 		return ($result);
 	}
 
-	public static function Request($query, array $params, $needResult)
+	public static function Request($query, array $params, $needResult = false)
 	{
-		$db = Database::Connect();
+		$db = self::Connect();
 		$request = $db->prepare($query);
-		$request->bindParams($params);
-		$request->execute();
+		$request->execute($params);
 		if ($needResult)
 		{
 			$results = $request->fetchAll();
@@ -45,5 +44,3 @@ class Database
 	}
 
 }
-
-?>

@@ -23,5 +23,3 @@ class Configuration
 	public static	$default_method_call = "index";
 	public static	$index_bundle = "Home";
 }
-
-?>

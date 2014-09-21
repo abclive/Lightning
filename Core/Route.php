@@ -939,5 +939,3 @@ class Route
 	}
 	
 }
-
-?>

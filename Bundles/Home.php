@@ -10,6 +10,10 @@ class Home extends Bundle
 	public function index()
 	{
 		echo "Hello World";
+		$this->save(array('streams',
+			'rows' => array('title', 'description'),
+			'values' => array('Hello', 'World')
+		));
 	}
 
 	public function greeting(array $param)
@@ -17,5 +21,3 @@ class Home extends Bundle
 		echo "Hello ".$param[0];
 	}
 }
-
-?>
