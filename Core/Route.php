@@ -1,5 +1,10 @@
 <?php
 
+/*
+**	DISCLAIMER
+**	Lightning is using EasyRoute Project using MIT License
+*/
+
 class Route
 {
 
