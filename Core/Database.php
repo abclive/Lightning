@@ -17,7 +17,7 @@ class Database
 		}
 		catch (PDOException $e)
 		{
-			print("Error etasblishing a connection with the database: ".$e->getMessage()."</br>");
+			print("Error establishing a connection with the database: ".$e->getMessage()."</br>");
 			die();
 		}
 	}
