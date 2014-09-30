@@ -16,7 +16,7 @@ class Configuration
 	**	Routes
 	**	=================
 	**	@routes_params: Typical route structure
-	**	@base_dir: Site base adress
+	**	@base_dir: Site base address
 	*/
 	public static	$base_dir = "http://localhost/Lightning";
 	public static	$routes_params = array("locale", "bundle", "action");

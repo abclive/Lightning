@@ -5,14 +5,14 @@ class Database
 	protected static 	$Name = "geekr";
 	protected static 	$User = "root";
 	protected static	$Password = "root";
-	protected static	$Adress = "localhost";
+	protected static	$Address = "localhost";
 	protected static	$Port = 8889;
 
 	protected static function Connect()
 	{
 		try
 		{
-			$db = new PDO('mysql:host='.self::$Adress.';port='.self::$Port.';dbname='.self::$Name, self::$User, self::$Password);
+			$db = new PDO('mysql:host='.self::$Address.';port='.self::$Port.';dbname='.self::$Name, self::$User, self::$Password);
 			return ($db);
 		}
 		catch (PDOException $e)
@@ -20,6 +20,7 @@ class Database
 			print("Error etasblishing a connection with the database: ".$e->getMessage()."</br>");
 			die();
 		}
+        return (false);
 	}
 
 	public static function Query($query)
@@ -41,6 +42,7 @@ class Database
 			$results = $request->fetchAll();
 			return ($results);
 		}
+        return (false);
 	}
 
 }
