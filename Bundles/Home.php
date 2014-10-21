@@ -2,6 +2,8 @@
 
 class Home extends Bundle
 {
+	public $using_modules = array('HelloWorld');
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -9,11 +11,13 @@ class Home extends Bundle
 
 	public function index()
 	{
-		echo "Hello World";
+		HelloWorld::Hello();
 	}
 
 	public function greeting(array $param)
 	{
-		echo "Hello ".$param[0];
+		$test = new HelloWorld();
+		$test->name = $param[0];
+		$test->Greeting();
 	}
 }

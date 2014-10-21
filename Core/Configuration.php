@@ -22,4 +22,12 @@ class Configuration
 	public static	$routes_params = array("locale", "bundle", "action");
 	public static	$default_method_call = "index";
 	public static	$index_bundle = "Home";
+
+	/*
+	**	Dependencies
+	**	=================
+	**	@folder: Name of the folder containing the dependencies files
+	*/
+
+	public static	$dependencies_folder = "Dependencies";
 }
