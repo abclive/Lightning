@@ -37,9 +37,9 @@ Now that the framework is correctly configured you're ready to go!
 ------------
 **Create your first bundle**
 
-Now you have to create your homepage bundle. So go to the Bundles folder and create a new file called Home.php in it. Bundles follow strict naming rules, you have to name it with the first letter in capital and the other one in lower case. And it have of course to be named as the class name.
+Now you have to create your homepage bundle. So go to the Bundles folder and create a new file called Home.php in it. Bundles follow strict naming rules, you have to name it with the first letter in capital and the other ones in lower case. And it have of course, to be named as the class name.
 
-So now create your Home class and make it extends Bundle so you get something like this:
+So now create your Home class and make it extends Bundle so you can get something like this:
 
 	<?php
 	
