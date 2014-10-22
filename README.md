@@ -2,11 +2,13 @@ Lightning
 =========
 
 A lite yet simple PHP framework. Using an intelligent package based dependencies system, Lightning load only the files you really need.
+
 **Write code as faster as your website run**
 
 Getting Started
 ------------------
 **Hello World Tutorial**
+
 First of all to understand the basis of Lightning logic you have to understand the MVC design pattern. Lightning kind of fork this pattern to make his very own. The architecture is as it follow:
 - Modules
 - Bundles
