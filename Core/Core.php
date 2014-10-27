@@ -30,6 +30,7 @@ class Core
 		if ($reflection->hasMethod($action))
 		{
 			$loaded_bundle = $reflection->newInstance();
+			$loaded_bundle->current_action = $action;
 			if ($parameter != null)
 				$loaded_bundle->$action($parameter);
 			else

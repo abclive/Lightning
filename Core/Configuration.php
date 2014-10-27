@@ -30,4 +30,13 @@ class Configuration
 	*/
 
 	public static	$dependencies_folder = "Dependencies";
+
+
+	/*
+	**	Views
+	**	=================
+	**	@default_layout: Name of the default layout file name
+	*/
+
+	public static	$default_layout = "default";
 }
