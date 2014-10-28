@@ -47,33 +47,19 @@ So now create your Home class and make it extends Bundle so you can get somethin
 	{
 	
 	}
-In order to load it correctly you need to implements the parent constructor like as follow:			
 
-	<?php
-	
-	class Home extends Bundle
-	{
-		public function __construct()
-		{
-			parent::__construct();
-		}
-	}
 And now we gonna add the default method name you configured, by default it's named index. And in this method we gonna say Hello to the World. Let's see what it's doing.
 
 	<?php
 	
 	class Home extends Bundle
 	{
-		public function __construct()
-		{
-			parent::__construct();
-		}
-	
 		public function index()
 		{
 			echo "Hello World!";
 		}
 	}
+
 And that's all you need! Now go to your website you should see your printed Hello World!
 
 **More tutorials to come!**
