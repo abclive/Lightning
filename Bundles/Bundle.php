@@ -6,11 +6,6 @@ class Bundle
 	public $current_action;
 	public $data;
 
-	public function __construct()
-	{
-		$this->bundle_name = get_class($this);
-	}
-
 	public function bind(array $params)
 	{
 		$keys = array_keys($params);

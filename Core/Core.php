@@ -31,6 +31,7 @@ class Core
 		{
 			$loaded_bundle = $reflection->newInstance();
 			$loaded_bundle->current_action = $action;
+			$loaded_bundle->bundle_name = $bundle;
 			if ($parameter != null)
 				$loaded_bundle->$action($parameter);
 			else
