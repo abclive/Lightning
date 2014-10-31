@@ -25,14 +25,30 @@ class Bundle
 
 	public function render($layout_name = null)
 	{
-		foreach ($this->data as $varname => $data)
-			$$varname = $data;
+		if (isset($this->data))
+		{
+			foreach ($this->data as $varname => $data)
+				$$varname = $data;
+		}
 
 		if (isset($layout_name))
 			require_once("Views/Layouts/".$layout_name.".php");
 		else
 			require_once("Views/Layouts/".Configuration::$default_layout.".php");
-		require_once("Views/".$this->bundle_name."/".$this->current_action.".php");
+	}
+
+	public function display($content = "content")
+	{
+		if (isset($this->data))
+		{
+			foreach ($this->data as $varname => $data)
+				$$varname = $data;
+		}
+
+		if ($content == "content")
+			require_once("Views/".$this->bundle_name."/".$this->current_action.".php");
+		else
+			require_once("Views/Layouts/".$content.".php");
 	}
 
 	public function fetch(array $query = array())

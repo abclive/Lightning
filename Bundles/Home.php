@@ -2,14 +2,21 @@
 
 class Home extends Bundle
 {
+	public $using_modules = array("Coucou", "Test");
+	public $using_bundles = array("Bonjour", "Le", "Live");
+
 	public function index()
 	{
 		$this->render();
 	}
 
-	public function greeting(array $param)
+	public function greeting(array $param = null)
 	{
-		$this->bind(array('name', $param[0]));
+		if (isset($param))
+			$this->bind(array('name', $param[0]));
+		else
+			$this->bind(array('name', 'stranger'));
 		$this->render();
+
 	}
 }

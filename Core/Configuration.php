@@ -15,28 +15,27 @@ class Configuration
 	/*
 	**	Routes
 	**	=================
-	**	@routes_params: Typical route structure
 	**	@base_dir: Site base address
+	**	@default_method_call: If not specified in the adress called by default method.
+	**	@index_bundle: The root bundle
 	*/
 	public static	$base_dir = "http://localhost/Lightning";
-	public static	$routes_params = array("locale", "bundle", "action");
 	public static	$default_method_call = "index";
 	public static	$index_bundle = "Home";
 
 	/*
 	**	Dependencies
 	**	=================
-	**	@folder: Name of the folder containing the dependencies files
+	**	@bundle_variable: The name of the bundle dependency variable.
+	**	@module_variable: The name of the module dependency variable.
 	*/
-
-	public static	$dependencies_folder = "Dependencies";
-
+	public static	$bundle_variable = "using_bundles";
+	public static	$module_variable = "using_modules";
 
 	/*
 	**	Views
 	**	=================
 	**	@default_layout: Name of the default layout file name
 	*/
-
 	public static	$default_layout = "default";
 }

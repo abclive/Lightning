@@ -26,8 +26,6 @@ First of all you have to configure the Framework. You will find in the Core fold
 
 **$base_dir** is the root adress of your website, it will be used to handle routes correctly
 
-**$routes_params** is an array setting how your routes are going to be organized. It's divided in three parts that must be included: "locale", "bundle", and "action". If you leave it by default the root will look like this : yoursite.com/(locale/)bundle/action. But it can be customized as well and the locale is optional.
-
 **$default_method_call** is the name of your default action. If none specified in the address bar the framework will launch this one by default.
 
 **$index_bundle** is the name of your site default bundle. The root of your website. For the tutorial we gonna set it to Home.
