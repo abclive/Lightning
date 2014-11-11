@@ -2,8 +2,7 @@
 
 class Home extends Bundle
 {
-	public $using_modules = array("Coucou", "Test");
-	public $using_bundles = array("Bonjour", "Le", "Live");
+	public $using_modules = array("AdminHelper");
 
 	public function index()
 	{
@@ -17,6 +16,5 @@ class Home extends Bundle
 		else
 			$this->bind(array('name', 'stranger'));
 		$this->render();
-
 	}
 }

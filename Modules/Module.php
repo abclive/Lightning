@@ -1,6 +1,9 @@
 <?php
 
-class Module
+class Module extends Core
 {
+	public function OnBundleLoaded($bundle)
+	{
 
+	}
 }

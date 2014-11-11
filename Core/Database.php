@@ -2,13 +2,13 @@
 
 class Database
 {
-	protected static 	$Name = "geekr";
-	protected static 	$User = "root";
-	protected static	$Password = "root";
-	protected static	$Address = "localhost";
-	protected static	$Port = 8889;
+	private static 	$Name = "geekr";
+	private static 	$User = "root";
+	private static	$Password = "root";
+	private static	$Address = "localhost";
+	private static	$Port = 8889;
 
-	protected static function Connect()
+	protected function Connect()
 	{
 		try
 		{
@@ -23,18 +23,18 @@ class Database
         return (false);
 	}
 
-	public static function Query($query)
+	public function Query($query)
 	{
-		$db = self::Connect();
+		$db = $this->Connect();
 		$request = $db->query($query);
 		$request->execute();
 		$result = $request->fetchAll();
 		return ($result);
 	}
 
-	public static function Request($query, array $params, $needResult = false)
+	public function Request($query, array $params, $needResult = false)
 	{
-		$db = self::Connect();
+		$db = $this->Connect();
 		$request = $db->prepare($query);
 		$request->execute($params);
 		if ($needResult)

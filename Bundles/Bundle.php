@@ -5,6 +5,8 @@ class Bundle
 	public $bundle_name;
 	public $current_action;
 	public $data;
+	public $db;
+	public $modules = array();
 
 	public function bind(array $params)
 	{
@@ -82,7 +84,7 @@ class Bundle
 			}
 		}
 
-		$result = Database::Query($request);
+		$result = $this->db->Query($request);
 		return ($result);
 
 	}
@@ -122,6 +124,6 @@ class Bundle
 		else
 			throw new Exception("Bundle::save() require a valid data array", 1001);
 
-		Database::Request($request, $data['values']);
+		$this->db->Request($request, $data['values']);
 	}
 }

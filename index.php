@@ -2,4 +2,6 @@
 
 require_once("Core/Core.php");
 
-Core::Redirect();
+$core = new Core();
+
+$core->Redirect();

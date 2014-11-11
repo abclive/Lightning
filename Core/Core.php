@@ -1,7 +1,5 @@
 <?php
 
-$core = new Core();
-
 class Core
 {
 	private static $routes_params = array("locale", "bundle", "action");
@@ -22,7 +20,7 @@ class Core
 		Route::start(Configuration::$base_dir, self::$routes_params, $exceptions);
 	}
 
-	public static function LoadBundle($bundle, $action = "index", array $parameter = null)
+	protected static function LoadBundle($bundle, $action = "index", array $parameter = null)
 	{
 		$bundle = ucfirst(strtolower($bundle));
 		if (self::CheckCache($bundle) == true)
@@ -37,6 +35,16 @@ class Core
 			$loaded_bundle = $reflection->newInstance();
 			$loaded_bundle->current_action = $action;
 			$loaded_bundle->bundle_name = $bundle;
+			$loaded_bundle->db = new Database();
+			if ($reflection->hasProperty(Configuration::$module_variable))
+			{
+				$modules = $reflection->getProperty(Configuration::$module_variable);
+				$modules = $modules->getValue($loaded_bundle);
+				foreach ($modules as $m)
+					$loaded_bundle->modules[] = new $m();
+			}
+			foreach ($loaded_bundle->modules as $module)
+				$module->OnBundleLoaded($loaded_bundle);
 			if ($reflection->hasMethod("beforeFilter"))
 				$loaded_bundle->beforeFilter();
 			if ($parameter != null)
@@ -50,7 +58,7 @@ class Core
 			throw new Exception("Page not found", 404);
 	}
 
-	public static function Redirect()
+	public function Redirect()
 	{
 		if (isset($_GET['bundle']))
 		{
@@ -69,13 +77,13 @@ class Core
 			self::LoadBundle(Configuration::$index_bundle, Configuration::$default_method_call);
 	}
 
-	public static function LoadFolder($folder)
+	protected static function LoadFolder($folder)
 	{
 		foreach (glob($folder."/*.php") as $filename)
 			require_once($filename);
 	}
 
-	public static function LoadDependencies($bundle_name)
+	protected static function LoadDependencies($bundle_name)
 	{
 		$filename = "Cache/dependencies/".$bundle_name;
 		if (file_exists($filename))
@@ -101,7 +109,7 @@ class Core
 			self::CreateDependencies($bundle_name);
 	}
 
-	public static function CreateDependencies($bundle_name)
+	protected static function CreateDependencies($bundle_name)
 	{
 		$filename = "Bundles/".$bundle_name.".php";
 		if (file_exists($filename))
@@ -116,7 +124,7 @@ class Core
 				foreach ($modules_dependencies as $key => $md)
 				{
 					$md = "Module:".$md;
-					if ($key - 1 == count($modules_dependencies) && $bundle_dependencies === false)
+					if ((count($modules_dependencies) === 1  || $key - 1 === count($modules_dependencies)) && $bundle_dependencies === false)
 						$content = $content.$md;
 					else
 						$content = $content.$md.", ";
@@ -146,7 +154,7 @@ class Core
 		}
 	}
 
-	public static function GetDependencies($variable, $file_content)
+	protected static function GetDependencies($variable, $file_content)
 	{
 		$pos = strpos($file_content, $variable);
 		if ($pos !== false)
@@ -165,7 +173,7 @@ class Core
 		return (false);
 	}
 
-	public static function CheckCache($bundle_name)
+	protected static function CheckCache($bundle_name)
 	{
 		$filename = "Bundles/".$bundle_name.".php";
 		if (file_exists($filename))
@@ -185,13 +193,13 @@ class Core
 		}
 	}
 
-	public static function LoadFile($filename)
+	protected static function LoadFile($filename)
 	{
 		if (file_exists($filename))
 			require_once($filename);
 	}
 
-	public static function RouteHasParameter()
+	protected static function RouteHasParameter()
 	{
 		if (isset($_GET['locale']) && count($_GET) > count(self::$routes_params))
 			return (true);
