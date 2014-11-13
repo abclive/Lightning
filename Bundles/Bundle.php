@@ -37,6 +37,12 @@ class Bundle
 			require_once("Views/Layouts/".$layout_name.".php");
 		else
 			require_once("Views/Layouts/".Configuration::$default_layout.".php");
+
+		if (count($this->modules) > 0)
+		{
+			foreach ($this->modules as $module)
+				$module->OnBundleRendered($this);
+		}
 	}
 
 	public function display($content = "content")

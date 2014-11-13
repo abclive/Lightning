@@ -1,0 +1,1 @@
+<p>Hello in admin section</p>

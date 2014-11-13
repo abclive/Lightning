@@ -41,10 +41,17 @@ class Core
 				$modules = $reflection->getProperty(Configuration::$module_variable);
 				$modules = $modules->getValue($loaded_bundle);
 				foreach ($modules as $m)
-					$loaded_bundle->modules[] = new $m();
+					$loaded_bundle->modules[$m] = new $m();
+				foreach ($loaded_bundle->modules as $module)
+					$module->db = new Database();
 			}
 			foreach ($loaded_bundle->modules as $module)
 				$module->OnBundleLoaded($loaded_bundle);
+			if ($parameter != null)
+			{
+				foreach ($loaded_bundle->modules as $module)
+					$module->HasRouteParams($loaded_bundle, $action, $parameter);
+			}
 			if ($reflection->hasMethod("beforeFilter"))
 				$loaded_bundle->beforeFilter();
 			if ($parameter != null)
@@ -58,7 +65,24 @@ class Core
 			throw new Exception("Page not found", 404);
 	}
 
-	public function Redirect()
+	public static function Redirect(array $args)
+	{
+		if (count($args) >= 2)
+		{
+			if (count($args) == 2)
+				self::LoadBundle($args[0], $args[1]);
+			else
+			{
+				$bundle = $args[0];
+				$action = $args[1];
+				unset($args[0]);
+				unset($args[1]);
+				self::LoadBundle($bundle, $action, $args);
+			}
+		}
+	}
+
+	public function RedirectRoute()
 	{
 		if (isset($_GET['bundle']))
 		{
@@ -77,7 +101,7 @@ class Core
 			self::LoadBundle(Configuration::$index_bundle, Configuration::$default_method_call);
 	}
 
-	protected static function LoadFolder($folder)
+	public static function LoadFolder($folder)
 	{
 		foreach (glob($folder."/*.php") as $filename)
 			require_once($filename);
@@ -193,7 +217,7 @@ class Core
 		}
 	}
 
-	protected static function LoadFile($filename)
+	public static function LoadFile($filename)
 	{
 		if (file_exists($filename))
 			require_once($filename);

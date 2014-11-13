@@ -4,6 +4,11 @@ class Home extends Bundle
 {
 	public $using_modules = array("AdminHelper");
 
+	public function admin_index()
+	{
+		$this->render('admin');
+	}
+
 	public function index()
 	{
 		$this->render();
