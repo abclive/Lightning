@@ -48,7 +48,12 @@ class Core
 		$bundle = ucfirst(strtolower($bundle));
 		self::LoadFile("Bundles/".$bundle.".php");
 		$action = strtolower($action);
-		$reflection = new ReflectionClass($bundle);
+		try {
+			$reflection = new ReflectionClass($bundle);
+		}
+		catch (Exception $e) {
+			throw new Exception("Bundle not found", 404);
+		}
 		if ($reflection->hasMethod($action))
 		{
 			$loaded_bundle = $reflection->newInstance();
@@ -142,5 +147,12 @@ class Core
 			return (true);
 		return (false);
 
+	}
+
+	public function HandleError(Exception $e)
+	{
+		$error = $e;
+		if (file_exists("Views/Layouts/error.php"))
+			require_once("Views/Layouts/error.php");
 	}
 }
