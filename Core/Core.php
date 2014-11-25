@@ -3,6 +3,8 @@
 class Core
 {
 	private static $routes_params = array("locale", "bundle", "action");
+	public static $module_dependencies = array();
+	public static $bundle_dependencies = array();
 
 	public function __construct()
 	{
@@ -20,13 +22,30 @@ class Core
 		Route::start(Configuration::$base_dir, self::$routes_params, $exceptions);
 	}
 
+	protected static function Uses(array $dependencies)
+	{
+		foreach ($dependencies as $dep)
+		{
+			if (file_exists($dep.".php"))
+			{
+				require_once($dep.".php");
+				if (strstr($dep, "Modules"))
+				{
+					$module = substr($dep, strpos($dep, "/") + 1);
+					self::$module_dependencies[] = new $module;
+				}
+				else if (strstr($dep, "Bundles"))
+				{
+					$bundle = substr($dep, strpos($dep, "/") + 1);
+					self::$bundle_dependencies[] = new $bundle;
+				}
+			}
+		}
+	}
+
 	protected static function LoadBundle($bundle, $action = "index", array $parameter = null)
 	{
 		$bundle = ucfirst(strtolower($bundle));
-		if (self::CheckCache($bundle) == true)
-			self::LoadDependencies($bundle);
-		else
-			self::CreateDependencies($bundle);
 		self::LoadFile("Bundles/".$bundle.".php");
 		$action = strtolower($action);
 		$reflection = new ReflectionClass($bundle);
@@ -36,30 +55,32 @@ class Core
 			$loaded_bundle->current_action = $action;
 			$loaded_bundle->bundle_name = $bundle;
 			$loaded_bundle->db = new Database();
-			if ($reflection->hasProperty(Configuration::$module_variable))
+			foreach (self::$module_dependencies as $module)
 			{
-				$modules = $reflection->getProperty(Configuration::$module_variable);
-				$modules = $modules->getValue($loaded_bundle);
-				foreach ($modules as $m)
-					$loaded_bundle->modules[$m] = new $m();
-				foreach ($loaded_bundle->modules as $module)
-					$module->db = new Database();
-			}
-			foreach ($loaded_bundle->modules as $module)
+				$module->db = new Database();
 				$module->OnBundleLoaded($loaded_bundle);
+			}
 			if ($parameter != null)
 			{
-				foreach ($loaded_bundle->modules as $module)
+				foreach (self::$module_dependencies as $module)
 					$module->HasRouteParams($loaded_bundle, $action, $parameter);
 			}
 			if ($reflection->hasMethod("beforeFilter"))
+			{
+				foreach (self::$module_dependencies as $module)
+					$module->BeforeFilter($loaded_bundle);
 				$loaded_bundle->beforeFilter();
+			}
 			if ($parameter != null)
 				$loaded_bundle->$action($parameter);
 			else
 				$loaded_bundle->$action();
 			if ($reflection->hasMethod("afterFilter"))
+			{
 				$loaded_bundle->afterFilter();
+				foreach (self::$module_dependencies as $module)
+					$module->AfterFilter($loaded_bundle);
+			}
 		}
 		else
 			throw new Exception("Page not found", 404);
@@ -105,116 +126,6 @@ class Core
 	{
 		foreach (glob($folder."/*.php") as $filename)
 			require_once($filename);
-	}
-
-	protected static function LoadDependencies($bundle_name)
-	{
-		$filename = "Cache/dependencies/".$bundle_name;
-		if (file_exists($filename))
-		{
-			$file_content = file_get_contents($filename);
-			$pos = strpos($file_content, " -- ");
-			if ($pos !== false)
-			{
-				$file_content = substr($file_content, $pos + 4);
-				$dependencies = explode(",", trim($file_content));
-				$dependencies = explode(", ", trim($file_content));
-				foreach ($dependencies as $dep)
-				{
-					$dependency = explode(":", $dep);
-					if ($dependency[0] === "Bundle")
-						self::LoadFile("Bundles/".$dependency[1].".php");
-					else if ($dependency[0] === "Module")
-						self::LoadFile("Modules/".$dependency[1].".php");
-				}
-			}
-		}
-		else
-			self::CreateDependencies($bundle_name);
-	}
-
-	protected static function CreateDependencies($bundle_name)
-	{
-		$filename = "Bundles/".$bundle_name.".php";
-		if (file_exists($filename))
-		{
-			$content = null;
-			$file_content = file_get_contents($filename);
-			$modules_dependencies = self::GetDependencies(Configuration::$module_variable, $file_content);	
-			$bundle_dependencies = self::GetDependencies(Configuration::$bundle_variable, $file_content);
-			if ($modules_dependencies !== false)
-			{
-				$modules_dependencies = array_values($modules_dependencies);
-				foreach ($modules_dependencies as $key => $md)
-				{
-					$md = "Module:".$md;
-					if ((count($modules_dependencies) === 1  || $key - 1 === count($modules_dependencies)) && $bundle_dependencies === false)
-						$content = $content.$md;
-					else
-						$content = $content.$md.", ";
-				}
-			}
-			if ($bundle_dependencies !== false)
-			{
-				$bundle_dependencies = array_values($bundle_dependencies);
-				foreach ($bundle_dependencies as $key => $md)
-				{
-					$md = "Bundle:".$md;
-					if ($key + 1 === count($bundle_dependencies))
-						$content = $content.$md;
-					else
-						$content = $content.$md.", ";
-				}
-			}
-			if (isset($content))
-			{
-				$content = filemtime($filename)." -- ".$content;
-				$filename = "Cache/dependencies/".$bundle_name;
-				if (file_exists($filename))
-					unlink($filename);
-				file_put_contents($filename, $content);
-				self::LoadDependencies($bundle_name);
-			}
-		}
-	}
-
-	protected static function GetDependencies($variable, $file_content)
-	{
-		$pos = strpos($file_content, $variable);
-		if ($pos !== false)
-		{
-			$pos = strpos($file_content, "(", $pos + strlen($variable));
-			$endpos = strpos($file_content, ")", $pos);
-			if ($endpos !== false)
-			{
-				$dependency_content = substr($file_content, $pos + 1, $endpos - $pos - 1);
-				$dependency_content = explode('"', $dependency_content);
-				$dependency_content = array_filter($dependency_content);
-				$dependency_content = array_diff($dependency_content, array(", ", ','));
-				return ($dependency_content);
-			}
-		}
-		return (false);
-	}
-
-	protected static function CheckCache($bundle_name)
-	{
-		$filename = "Bundles/".$bundle_name.".php";
-		if (file_exists($filename))
-		{
-			$lastedit = filemtime($filename);
-			$filename = "Cache/dependencies/".$bundle_name;
-			if (file_exists($filename))
-			{
-				$file_content = file_get_contents($filename);
-				$pos = strpos($file_content, " -- ");
-				$time = substr($file_content, 0, $pos);
-				if ($time == $lastedit)
-					return (true);
-				return (false);
-			}
-			return (false);
-		}
 	}
 
 	public static function LoadFile($filename)

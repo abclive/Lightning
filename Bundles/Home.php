@@ -1,9 +1,9 @@
 <?php
 
+Core::Uses(array('Modules/AdminHelper'));
+
 class Home extends Bundle
 {
-	public $using_modules = array("AdminHelper");
-
 	public function admin_index()
 	{
 		$this->render('admin');

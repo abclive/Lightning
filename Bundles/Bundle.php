@@ -38,9 +38,9 @@ class Bundle
 		else
 			require_once("Views/Layouts/".Configuration::$default_layout.".php");
 
-		if (count($this->modules) > 0)
+		if (count(Core::$module_dependencies) > 0)
 		{
-			foreach ($this->modules as $module)
+			foreach (Core::$module_dependencies as $module)
 				$module->OnBundleRendered($this);
 		}
 	}

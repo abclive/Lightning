@@ -20,6 +20,16 @@ class AdminHelper extends Module
 		}
 	}
 
+	public function BeforeFilter($bundle)
+	{
+		echo "AdminHelper beforeFilter called from ".$bundle->bundle_name;
+	}
+
+	public function AfterFilter($bundle)
+	{
+		echo "AdminHelper afterFilter called from ".$bundle->bundle_name;
+	}
+
 	public function OnBundleRendered($bundle)
 	{
 		echo "AdminHelper OnBundleRendered loaded from ".$bundle->bundle_name;
