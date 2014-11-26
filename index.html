@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Lightning by abclive</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Lightning</h1>
+        <h2>A lite yet simple PHP framework</h2>
+        <a href="https://github.com/abclive/Lightning" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="lightning" class="anchor" href="#lightning" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lightning</h1>
+
+<p>A lite yet simple PHP framework. Using an intelligent package based dependencies system, Lightning load only the files you really need.</p>
+
+<p><strong>Write code as faster as your website run</strong></p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p><strong>Hello World Tutorial</strong></p>
+
+<p>First of all to understand the basis of Lightning logic you have to understand the MVC design pattern. Lightning kind of fork this pattern to make his very own. The architecture is as it follow:</p>
+
+<ul>
+<li>Modules</li>
+<li>Bundles</li>
+<li>Views</li>
+</ul>
+
+<p>So what are the differences between this and a classic MVC pattern. The Modules are optional, there are kind of plugins that add functions and tools to your website to make the framework yours. The Bundles are a mix of what we call Controllers and Models. So basically all the query to the database and the modification of the results occurs in them.</p>
+
+<p>So now that we know that let's dive into it.</p>
+
+<hr>
+
+<p><strong>Configure the framework</strong></p>
+
+<p>First of all you have to configure the Framework. You will find in the Core folder a file named Configuration.php. This file contains all the essentials informations the framework needs to run correctly.</p>
+
+<p><strong>$base_dir</strong> is the root adress of your website, it will be used to handle routes correctly</p>
+
+<p><strong>$default_method_call</strong> is the name of your default action. If none specified in the address bar the framework will launch this one by default.</p>
+
+<p><strong>$index_bundle</strong> is the name of your site default bundle. The root of your website. For the tutorial we gonna set it to Home.</p>
+
+<p>Now that the framework is correctly configured you're ready to go!</p>
+
+<hr>
+
+<p><strong>Create your first bundle</strong></p>
+
+<p>Now you have to create your homepage bundle. So go to the Bundles folder and create a new file called Home.php in it. Bundles follow strict naming rules, you have to name it with the first letter in capital and the other ones in lower case. And it have of course, to be named as the class name.</p>
+
+<p>So now create your Home class and make it extends Bundle so you can get something like this:</p>
+
+<pre><code>&lt;?php
+
+class Home extends Bundle
+{
+
+}
+</code></pre>
+
+<p>And now we gonna add the default method name you configured, by default it's named index. And in this method we gonna say Hello to the World. Let's see what it's doing.</p>
+
+<pre><code>&lt;?php
+
+class Home extends Bundle
+{
+    public function index()
+    {
+        echo "Hello World!";
+    }
+}
+</code></pre>
+
+<p>And that's all you need! Now go to your website you should see your printed Hello World!</p>
+
+<p><strong>More tutorials to come!</strong></p>
+
+<h2>
+<a id="more-infos" class="anchor" href="#more-infos" aria-hidden="true"><span class="octicon octicon-link"></span></a>More infos</h2>
+
+<p><a href="http://www.bukkit.fr/index.php/topic/14366-lightning-un-framework-l%C3%A9ger-et-facile/">http://www.bukkit.fr/index.php/topic/14366-lightning-un-framework-l%C3%A9ger-et-facile/</a></p>
+
+<h2>
+<a id="download-the-latest-release" class="anchor" href="#download-the-latest-release" aria-hidden="true"><span class="octicon octicon-link"></span></a>Download the latest release</h2>
+
+<p><a href="https://github.com/abclive/Lightning/releases">https://github.com/abclive/Lightning/releases</a></p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/abclive/Lightning/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/abclive/Lightning/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/abclive/Lightning"></a> is maintained by <a href="https://github.com/abclive">abclive</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
