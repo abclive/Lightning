@@ -8,7 +8,6 @@ class Core
 
 	public function __construct()
 	{
-		print_r("Bonjour");
 		self::LoadFolder("Core");
 		self::LoadFile("Bundles/Bundle.php");
 		self::LoadFile("Modules/Module.php");
