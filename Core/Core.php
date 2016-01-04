@@ -11,13 +11,13 @@ class Core
 		self::LoadFolder("Core");
 		self::LoadFile("Bundles/Bundle.php");
 		self::LoadFile("Modules/Module.php");
-		$exceptions = array();
+		$exceptions = [];
 		if (array_search("locale", self::$routes_params) !== false)
 		{
-			$exceptions[] = array(
+			$exceptions[] = [
 				"param" => "locale",
 				"exceptions" => Configuration::$available_locales
-			);
+			];
 		}
 		Route::start(Configuration::$base_dir, self::$routes_params, $exceptions);
 	}

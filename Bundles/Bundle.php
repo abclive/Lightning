@@ -6,7 +6,7 @@ class Bundle
 	public $current_action;
 	public $data;
 	public $db;
-	public $modules = array();
+	public $modules = [];
 
 	public function bind(array $params)
 	{

@@ -17,9 +17,9 @@ class Home extends Bundle
 	public function greeting(array $param = null)
 	{
 		if (isset($param))
-			$this->bind(array('name', $param[0]));
+			$this->bind(['name', $param[0]]);
 		else
-			$this->bind(array('name', 'stranger'));
+			$this->bind(['name', 'stranger']);
 		$this->render();
 	}
 }
