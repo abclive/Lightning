@@ -1,7 +1,7 @@
 Lightning
 =========
 
-A lite yet simple PHP framework. Using an intelligent package based dependencies system, Lightning load only the files you really need.
+A light yet simple PHP framework. Using an intelligent package based dependencies system, Lightning load only the files you really need.
 
 **Write code as faster as your website run**
 
