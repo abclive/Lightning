@@ -1,3 +1,6 @@
+**Disclaimer**
+This was me learning how to code a MVC framework, please do not use this work
+
 Lightning
 =========
 
